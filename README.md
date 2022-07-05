@@ -36,10 +36,10 @@
 
 To view this webpage on a local machine, pull the code from [GitHub]() using Terminal (Mac) or Git (Windows) and use the following (or similar) programs:
 
-- Operating System: macOS Monterey Version 21.1
-- Visual Studio Code: Version 1.64.2
-- Google Chrome: Version 98.0.4758.102
-- Terminal: Version 2.12
+- Operating System: macOS Monterey Version 12.4
+- Visual Studio Code: Version 1.68.1
+- Google Chrome: Version 103.0.5060.114 
+- Terminal: Version 2.12.7
 
 ## Usage
 
