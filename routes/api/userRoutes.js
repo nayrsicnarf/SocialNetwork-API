@@ -13,21 +13,21 @@ const {
 // /api/users
 router
   .route('/')
-  .get(getAllUsers)
-  .post(createUsers);
+  .get(getAllUsers)       // GET all users
+  .post(createUsers);     // POST new user(s)
 
 // /api/users/:id
 router
   .route('/:id')
-  .get(getUsersById)
-  .put(updateUsers)
-  .delete(deleteUsers);
+  .get(getUsersById)      // GET user by ID
+  .put(updateUsers)       // PUT to update user by ID
+  .delete(deleteUsers);   // DELETE to remove user by ID
 
 // /api/users/:userId/friends/:friendId
 router
   .route('/:id/friends/:friendId')
-  .post(addFriend)
-  .delete(deleteFriend)
+  .post(addFriend)        // POST to add new friend
+  .delete(deleteFriend)   // DELETE to remove friend
 
 // Export module router
 module.exports = router; 

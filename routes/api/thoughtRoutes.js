@@ -11,19 +11,19 @@ const {
 // /api/thoughts
 router
   .route('/')
-  .get(getAllThoughts);
+  .get(getAllThoughts);     // GET all thoughts
 
 // /api/thoughts/:thoughtsId
 router
   .route('/:id')
-  .get(getThoughtsById)
-  .put(updateThoughts)
-  .delete(deleteThoughts);
+  .get(getThoughtsById)     // GET thoughts by ID
+  .put(updateThoughts)      // PUT to update thoughts by ID
+  .delete(deleteThoughts);  // DELETE to remove thoughts by ID
 
 // api/thoughts/:userId/
 router
   .route('/:userId')
-  .post(createThoughts);
+  .post(createThoughts);    //POST to create new thoughts
 
 // Export module router
 module.exports = router;
