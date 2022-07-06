@@ -1,4 +1,5 @@
-const express = require('express');
+const express = require("express");
+const mongoose = require("mongoose");
 const db = require('./config/connection');
 const routes = require('./routes');
 
@@ -13,6 +14,6 @@ app.use(routes);
 
 db.once('open', () => {
   app.listen(PORT, () => {
-    console.log(`API server for ${activity} running on port ${PORT}!`);
+    console.log(`API server for Social Network API is running on port ${PORT}!`);
   });
 });
