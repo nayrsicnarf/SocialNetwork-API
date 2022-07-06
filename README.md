@@ -18,7 +18,7 @@
 
 ## GitHub Repository and Heroku Deployment
 
-- [GitHub Repository]()
+- [GitHub Repository](https://github.com/nayrsicnarf/SocialNetwork-API.git)
 
 - [Heroku Deployment]()
 
@@ -34,7 +34,7 @@
 
 ## Installation
 
-To view this webpage on a local machine, pull the code from [GitHub]() using Terminal (Mac) or Git (Windows) and use the following (or similar) programs:
+To view this webpage on a local machine, pull the code from [GitHub](https://github.com/nayrsicnarf/SocialNetwork-API.git) using Terminal (Mac) or Git (Windows) and use the following (or similar) programs:
 
 - Operating System: macOS Monterey Version 12.4
 - Visual Studio Code: Version 1.68.1
@@ -43,7 +43,7 @@ To view this webpage on a local machine, pull the code from [GitHub]() using Ter
 
 ## Usage
 
-To view the completed project, visit my [GitHub]() or refer to the [Installation](#installation) section of this README.
+To view the completed project, visit my [GitHub](https://github.com/nayrsicnarf/SocialNetwork-API.git) or refer to the [Installation](#installation) section of this README.
 
 ## Screenshot
 
