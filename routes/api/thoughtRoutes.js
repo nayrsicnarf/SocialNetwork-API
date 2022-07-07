@@ -15,7 +15,7 @@ router
   .get(getAllThoughts);                       // GET to get all thoughts
 
 router
-  .route('/:id')                              // /api/thought/:thoughtsId
+  .route('/:id')                              // /api/thoughts/:id
   .get(getThoughtById)                        // GET to get thoughts by ID
   .put(updateThought)                         // PUT to update thoughts by ID
   .delete(deleteThought);                     // DELETE to remove thoughts by ID

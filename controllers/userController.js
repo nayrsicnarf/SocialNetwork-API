@@ -5,18 +5,24 @@ module.exports = {
     // GET all users
     getAllUsers(req, res) {
         User.find()
+            // .populate({ path: 'thoughts', select: '-__v' })
+            // .populate({ path: 'friends', select: '-__v' })
             .then((user) => res.json(user))
             .catch((err) => res.status(500).json(err));
     },
 
     // GET user by ID
     getUserById(req, res) {
-        User.findOne({ _id: req.params.userId })
+        console.log(req)
+        User.findOne({ _id: req.params.id })
+            // .populate({ path: 'thoughts', select: '-__v' })
+            // .populate({ path: 'friends', select: '-__v' })
             .select("-__v")
-            .then((user) =>
+            .then((user) => {
                 !user
                     ? res.status(404).json({ message: "No user with that ID" })
                     : res.json(user)
+            }
             )
             .catch((err) => res.status(500).json(err));
     },
@@ -33,11 +39,11 @@ module.exports = {
 
     // DELETE user
     deleteUser(req, res) {
-        User.findOneAndDelete({ _id: req.params.userId })
+        User.findOneAndDelete({ _id: req.params.id })
             .then((user) =>
                 !user
                     ? res.status(404).json({ message: "No user with that ID" })
-                    : Thought.deleteMany({ _id: { $in: user.thought } })
+                    : Thought.deleteMany({ _id: { $in: user.thoughts } })
             )
             .then(() => res.json({ message: "User and thoughts deleted!" }))
             .catch((err) => res.status(500).json(err));
@@ -46,53 +52,55 @@ module.exports = {
     // UPDATE user
     updateUser(req, res) {
         User.findOneAndUpdate(
-            { _id: req.params.userId },
+            { _id: req.params.id },
             { $set: req.body },
             { runValidators: true, new: true }
         )
             .then((user) =>
                 !user
-                    ? res.status(404).json({ message: 'No user with this id!' })
+                    ? res.status(404).json({ message: "No user with this ID." })
                     : res.json(user)
             )
             .catch((err) => res.status(500).json(err));
     },
 
     // ADD a friend
-    addFriend(req, res) {
-        console.log("You are adding a friend");
-        console.log(req.body);
+    addFriend({ params }, res) {
         User.findOneAndUpdate(
-            { _id: req.params.userId },
-            { $addToSet: { friends: req.body } },
-            { runValidators: true, new: true }
+            { _id: params.id },
+            { $push: { friends: params.friendId } },
+            { new: true }
         )
+            .populate({ path: "friends", select: ("-__v") })
+            .select("-__v")
             .then((user) =>
                 !user
                     ? res
                         .status(404)
-                        .json({ message: "No user found with that ID :(" })
+                        .json({ message: "No user found with that ID." })
                     : res.json(user)
             )
-            .catch((err) => res.status(500).json(err));
+            .catch((err) => res.json(err));
     },
 
     // DELETE a friend
-    deleteFriend(req, res) {
+    deleteFriend({ params }, res) {
         User.findOneAndUpdate(
-            { _id: req.params.userId },
-            { $pull: { friends: { friendId: req.params.friendId } } },
-            { runValidators: true, new: true }
+            { _id: params.id },
+            { $pull: { friends: params.friendId } },
+            { new: true }
         )
+            .populate({ path: "friends", select: "-__v" })
+            .select("-__v")
             .then((user) =>
                 !user
                     ? res
                         .status(404)
-                        .json({ message: "No user found with that ID :(" })
+                        .json({ message: "No user found with that ID." })
                     : res.json(user)
             )
-            .catch((err) => res.status(500).json(err));
+            .then(() => res.json({ message: "Friend had been removed!" }))
+            .catch((err) => res.json(err));
     },
 
-    
 };
