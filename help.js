@@ -1,47 +1,29 @@
-const { Schema, model } = require("mongoose");
+const router = require("express").Router();
 
-//Schema for the User model
-const userSchema = new Schema(
-    {
-        username: {
-            type: String,
-            unique: true,
-            required: true,
-            trimmed: true,
-        },
-        email: {
-            type: String,
-            required: true,
-            unique: true,
-            validator: {
-                $jsonSchema: {
-                    email: { $regex: /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/ },
-                },
-            },
-        },
-        thoughts: [{
-            type: Schema.Types.ObjectId,
-            ref: "Thought",
-        }],
-        friends: [{
-            type: Schema.Types.ObjectId,
-            ref: 'User',
-        },],
-    },
-    {
-        toJson: {
-            virtuals: true,
-        }
-    }
-);
+const {
+    deleteUser,
+    updateUser,
+    findAllUsers,
+    findUserById,
+    createUser,
+    removeFriend,
+    addFriend
+} = require("../../controllers/userController");
 
-userSchema
-    .virtual('friendCount')
-    .get(function ()
-    {
-        return this.friends.length;
-    });
+router
+.route("/")
+.get(findAllUsers)
+.post(createUser);
 
-const User = model("user", userSchema);
+router
+.route("/:userId")
+.get(findUserById)
+.put(updateUser)
+.delete(deleteUser);
 
-module.exports = User;
+router
+.route("/:userId/friends/:friendId")
+.post(addFriend)
+.delete(removeFriend);
+
+module.exports = router;
