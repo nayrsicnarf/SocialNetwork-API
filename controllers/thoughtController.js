@@ -61,12 +61,12 @@ module.exports = {
             .findOneAndUpdate({ _id: req.params.thoughtId },
                 { $addToSet: { reactions: req.body } },)
                 .then((reaction) => !reaction
-                ? res.status(404).json({ message: "No thought at this id" })
+                ? res.status(404).json({ message: "No thought with this id" })
                 : res.json(reaction))
                 .catch((err) => res.status(500).json(err))
     },
 
-    // DELETE a reaction
+    // REMOVE a reaction
     removeReaction(req, res) {
         Thought
             .findOneAndUpdate(
@@ -74,7 +74,7 @@ module.exports = {
                 { $pull: { reactions: { reactionId: req.params._id } } },
             )
             .then((reaction) => !reaction
-                ? res.status(400).json({ message: "No reaction at this id" })
+                ? res.status(400).json({ message: "No reaction with this id" })
                 : res.json({ message: "Goodbye reaction" })
             ).catch((err) => res.status(500).json(err));
     },

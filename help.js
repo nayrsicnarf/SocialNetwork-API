@@ -1,74 +1,73 @@
-const { Thought } = require("../models");
+const { User } = require("../models");
 
 module.exports = {
 
-    deleteThought(req, res)
+    deleteUser(req, res)
     {
-        Thought.findOneAndDelete({ _id: req.params.thoughtId })
-            .then((thought) => !thought
-                ? res.status(400).json({ message: "No Thought at this id" })
-                : res.json({ message: "GoodBye Thought" })
+        User.findOneAndDelete({ _id: req.params.userId })
+            .then((user) => !user
+                ? res.status(400).json({ message: "No User at this id" })
+                : res.json({ message: "GoodBye User" })
             ).catch((err) =>
                 res.status(500).json(err))
     },
 
-    updateThought(req, res)
+    updateUser(req, res)
     {
-        Thought.findOneAndUpdate({ _id: req.params.thoughtId },
+        User.findOneAndUpdate({ _id: req.params.userId },
             { $set: req.body },
             { runValidators: true, new: true })
-            .then((thought) => !thought
-                ? res.status(400).json({ message: "No Thought at this id" })
-                : res.json(thought)
+            .then((user) => !user
+                ? res.status(400).json({ message: "No User at this Id" })
+                : res.json(user)
             ).catch((err) =>
-                res.status(500).json(err))
+            {
+                console.log(err)
+                return res.status(500).json(err)
+            })
     },
 
-    getAllThoughts(req, res)
+    findAllUsers(req, res)
     {
-        Thought.find()
-            .then((thoughts) => res.json(thoughts))
-            .catch((err) =>
-                res.status(500).json(err))
+        User.find()
+            .then((users) => res.json(users))
+            .catch((err) => res.status(500).json(err))
     },
 
-    getThoughtById(req, res)
+    findUserById(req, res)
     {
-        Thought.findOne({ _id: req.params.thoughtId })
-            .then(async (thought) => !thought
-                ? res.status(400).json({ message: "No Thought at this id" })
-                : res.json(thought)
+        User.findOne({ _id: req.params.userId })
+            .then(async (user) => !user
+                ? res.status(400).json({ message: "No User at this id" })
+                : res.json(user)
             ).catch((err) => res.status(500).json(err));
     },
 
-    createThought(req, res)
+    createUser(req, res)
     {
-        Thought.create(req.body)
-            .then((thought) => res.json(thought))
+        User.create(req.body)
+            .then((user) => res.json(user))
             .catch((err) =>
                 res.status(500).json(err));
     },
 
-    removeReaction(req, res)
+    removeFriend(req, res)
     {
-        Thought.findOneAndUpdate(
-            { _id: req.params.thoughtId },
-            { $pull: { reactions: { reactionId: req.params._id } } },
-            //{ runValidators: true, new: true }
-        )
-            .then((reaction) => !reaction
-                ? res.status(400).json({ message: "No reaction at this id" })
-                : res.json({ message: "Goodbye reaction" })
-            ).catch((err) => res.status(500).json(err));
+        User.findOneAndUpdate({ _id: req.params.userId },
+            { $pull: { friends: req.params.friendId } },
+            { runValidators: true, new: true }
+        ).then((friend) => !friend
+            ? res.stauts(400).json({ message: "No User at this Id" })
+            : res.json({ message: "goodbye friend" })
+        ).catch((err) => res.status(500).json(err));
     },
-    addReaction(req, res)
+
+    addFriend(req, res)
     {
-        Thought.findOneAndUpdate({ _id: req.params.thoughtId },
-            { $addToSet: { reactions: req.body } },
-            //{ runValidators: true, new: true }
-        ).then((reaction) => !reaction
-            ? res.status(404).json({ message: "No thought at this id" })
-            : res.json(reaction)
-        ).catch((err) => res.status(500).json(err))
+        User.findOneAndUpdate({ _id: req.params.userId },
+            { $addToSet: { friends: req.params.friendId } },
+            { runValidators: true, new: true }
+        ).then((friends) => res.json(friends)
+        ).catch((err) => res.status(500).json(err));
     }
-};
+}
