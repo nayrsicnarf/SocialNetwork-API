@@ -7,7 +7,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      trim: true,
+      trimmed: true,
     },
 
     email: {
@@ -35,8 +35,6 @@ const userSchema = new Schema(
       getters: true,
       virtuals: true,
     },
-    
-    id: false,
   }
 );
 
