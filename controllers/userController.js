@@ -80,6 +80,7 @@ module.exports = {
                         .json({ message: "No user found with that ID." })
                     : res.json(user)
             )
+            .then(() => res.json({ message: "Friend has been added!" }))
             .catch((err) => res.json(err));
     },
 
@@ -100,7 +101,7 @@ module.exports = {
                     : res.json(user)
             )
             .then(() => res.json({ message: "Friend had been removed!" }))
-            .catch((err) => res.json(err));
+            .catch((err) => res.status(500).json(err));
     },
 
 };

@@ -4,26 +4,27 @@ const { Thought, User } = require("../models");
 module.exports = {
     // GET all thoughts
     getAllThoughts(req, res) {
-        Thought.find()
-            .then((thoughts) => res.json(thoughts))
+        Thought.find({})
+            .select('-__v')
+            .then((thought) => res.json(thought))
             .catch((err) => res.status(500).json(err));
     },
 
     // GET thought by ID
-    getThoughtById(req, res) {
-        Thought.findOne({ _id: req.params.thoughtId })
+    getThoughtById({ params }, res) {
+        Thought.findOne({ _id: params.id })
             .select("-__v")
             .then((thought) =>
                 !thought
-                    ? res.status(404).json({ message: "No thought with that ID" })
+                    ? res.status(404).json({ message: "No thought with this ID." })
                     : res.json(thought)
             )
             .catch((err) => res.status(500).json(err));
     },
 
     // CREATE thought
-    createThought(req, res) {
-        Thought.create(req.body)
+    createThought({ params, body }, res) {
+        Thought.create(body)
             .then(({ _id }) => {
                 return User
                     .findOneAndUpdate(
@@ -31,6 +32,11 @@ module.exports = {
                         { $push: { thoughts: _id } },
                         { new: true });
             })
+            .then((thought) =>
+                !thought
+                    ? res.status(404).json({ message: "No thought with this ID." })
+                    : res.json(thought)
+            )
             .catch((err) => {
                 console.log(err);
                 return res.status(500).json(err);
@@ -38,46 +44,45 @@ module.exports = {
     },
 
     // UPDATE thought
-    updateThought(req, res) {
+    updateThought({ params, body }, res) {
         Thought.findOneAndUpdate(
-            { _id: req.params.id },
-            { $set: req.body },
+            { _id: params.id }, body,
             { runValidators: true, new: true }
         )
+            .select('-___v')
             .then((thought) =>
                 !thought
-                    ? res.status(404).json({ message: 'No thought with this id!' })
+                    ? res.status(404).json({ message: "No thought with this ID." })
                     : res.json(thought)
             )
             .catch((err) => res.status(500).json(err));
     },
 
     // DELETE thought
-    deleteThought(req, res) {
-        Thought.findOneAndDelete({ _id: req.params.id })
+    deleteThought({ params }, res) {
+        Thought.findOneAndDelete({ _id: params.id })
             .then((thought) =>
                 !thought
-                    ? res.status(404).json({ message: "No thought with that ID" })
-                    : res.json(thought)
+                    ? res.status(404).json({ message: "No thought with this ID." })
+                    : Thought.deleteOne({ _id: params.id })
             )
             .then(() => res.json({ message: "Thought deleted!" }))
             .catch((err) => res.status(500).json(err));
     },
 
     // ADD a reaction
-    addReaction(req, res) {
-        console.log("You are adding a reaction");
-        console.log(req.body);
+    addReaction({ params, body }, res) {
         Thought.findOneAndUpdate(
-            { _id: req.params.id },
-            { $addToSet: { reactions: req.body } },
+            { _id: params.thoughtId },
+            { $push: { reactions: body } },
             { runValidators: true, new: true }
         )
+            .select('-__v')
             .then((thought) =>
                 !thought
                     ? res
                         .status(404)
-                        .json({ message: "No thought found with that ID :(" })
+                        .json({ message: "No thought found with this ID." })
                     : res.json(thought)
             )
             .catch((err) => res.status(500).json(err));
@@ -85,18 +90,21 @@ module.exports = {
 
     // DELETE a reaction
     deleteReaction(req, res) {
+        console.log(req)
         Thought.findOneAndUpdate(
-            { _id: req.params.id },
-            { $pull: { reactions: { reactionId: req.params.id } } },
-            { runValidators: true, new: true }
+            { _id: req.params.thoughtId },
+            { $pull: { reactions: req.params.reactionId } },
+            { new: true }
         )
+
             .then((thought) =>
                 !thought
                     ? res
                         .status(404)
-                        .json({ message: "No thought found with that ID :(" })
-                    : res.json(thoughtId)
+                        .json({ message: "No reaction found with this ID." })
+                    : res.json(thought)
             )
             .catch((err) => res.status(500).json(err));
     },
+
 };

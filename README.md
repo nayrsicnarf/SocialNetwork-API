@@ -5,7 +5,7 @@
 - [Social Network API](#social-network-api)
   - [Table of Contents](#table-of-contents)
   - [Description](#description)
-  - [GitHub Repository and Heroku Deployment](#github-repository-and-heroku-deployment)
+  - [GitHub Repository and Video Demo](#github-repository-and-video-demo)
   - [Technologies](#technologies)
   - [Installation](#installation)
   - [Usage](#usage)
@@ -16,11 +16,11 @@
 
 
 
-## GitHub Repository and Heroku Deployment
+## GitHub Repository and Video Demo
 
 - [GitHub Repository](https://github.com/nayrsicnarf/SocialNetwork-API.git)
 
-- [Heroku Deployment]()
+- [Video Demo]()
 
 ## Technologies
 

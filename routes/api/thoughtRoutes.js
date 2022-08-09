@@ -11,11 +11,11 @@ const {
 } = require("../../controllers/thoughtController");
 
 router
-  .route('/')                                 // /api/thoughts
+  .route('/')                                 // /api/thought
   .get(getAllThoughts);                       // GET to get all thoughts
 
 router
-  .route('/:id')                              // /api/thoughts/:id
+  .route('/:id')                              // /api/thought/:id
   .get(getThoughtById)                        // GET to get thoughts by ID
   .put(updateThought)                         // PUT to update thoughts by ID
   .delete(deleteThought);                     // DELETE to remove thoughts by ID
@@ -29,7 +29,7 @@ router
   .post(addReaction);                         // POST to create reactions
 
 router
-  .route('/:thoughtId/reactions/:reactionId') // /api/thought/:thoughtId/reactionId
+  .route('/:thoughtId/reactions/:reactionId') // /api/thought/:thoughtId/reactions/reactionId
   .delete(deleteReaction);                    // DELETE to remove reactions by ID
 
 // Export module router
