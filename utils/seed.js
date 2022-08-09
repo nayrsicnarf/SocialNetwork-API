@@ -13,10 +13,10 @@ connection.once("open", async () => {
     await Thought.deleteMany({});
 
     // Create empty array to hold the users
-    const users = [{}];
+    const users = [];
 
     // Create empty array to hold the thoughts
-    const thoughts = [{}];
+    const thoughts = [];
 
     // Add users to the collection and await the results
     await User.collection.insertMany(users);
